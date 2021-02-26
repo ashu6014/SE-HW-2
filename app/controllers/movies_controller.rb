@@ -7,6 +7,10 @@ class MoviesController < ApplicationController
   end
 
   def index
+    
+    if request.env['PATH_INFO'] == '/'
+      session.clear
+    end
 
     @all_ratings = Movie.all_ratings
 
@@ -38,9 +42,7 @@ class MoviesController < ApplicationController
     
     @sort_by = sort
     
-    if request.env['PATH_INFO'] == '/'
-      session.clear
-    end
+    
       
   end
   
