@@ -5,10 +5,9 @@ class Movie < ActiveRecord::Base
     end
     
     def self.with_ratings(ratings)
-        if ratings.nil? #no rating is selected
-            Movie.all
-        else #filetering by a particular rating
-            Movie.where(rating:ratings)
-        end
+        Movie.where(rating:ratings) #filter by the rating and remember the sorted column
     end
+    
 end
+
+
