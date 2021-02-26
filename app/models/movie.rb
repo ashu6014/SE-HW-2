@@ -1,7 +1,7 @@
 class Movie < ActiveRecord::Base
 
     def self.all_ratings
-      return ['G', 'PG', 'PG-13' ,'R'] #collection of movie ratings
+      select(:rating).map(&:rating).uniq
     end
     
     def self.with_ratings(ratings)

@@ -8,27 +8,40 @@ class MoviesController < ApplicationController
 
   def index
 
-    @all_ratings = ['G', 'PG', 'PG-13' ,'R']
+    @all_ratings = Movie.all_ratings
 
     ratings = params[:ratings].nil? ? ((session[:ratings_to_show].nil? ) ? @all_ratings : JSON.parse(session[:ratings_to_show])) : params[:ratings].keys
     
-    @movies = Movie.with_ratings(ratings)
+    if params[:sort_by]
+      session[:sort_by] = params[:sort_by]
+      sort = params[:sort_by]
+    elsif session[:sort_by]
+      sort = session[:sort_by]
+    end      
+      
+    
     @ratings_to_show = ratings
     
-    if params[:sort_by] == "title" 
+    if sort == "title" 
       @movies = Movie.with_ratings(ratings).order(:title)
-    elsif params[:sort_by] == "release_date"
+      
+    elsif sort == "release_date"
       @movies = Movie.with_ratings(ratings).order(:release_date)
+     
     else
       @movies = Movie.with_ratings(ratings)
     end
     
     session[:ratings_to_show] = JSON.generate(ratings)
+    
+    session[:ratings] = params[:ratings]
+    
+    @sort_by = sort
       
   end
   
-  
 
+  
   def new
     # default: render 'new' template
   end
