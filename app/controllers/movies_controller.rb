@@ -37,6 +37,10 @@ class MoviesController < ApplicationController
     session[:ratings] = params[:ratings]
     
     @sort_by = sort
+    
+    if request.env['PATH_INFO'] == '/'
+      session.clear
+    end
       
   end
   
